@@ -16,10 +16,10 @@ import { UserState } from "../context/UserProvider";
 
 const AdminPage = () => {
   const toast = useToast();
-  const { user } = UserState();
+  const { isAdmin } = UserState();
   const history = useNavigate();
   useEffect(() => {
-    if (!user.isAdmin) {
+    if (!isAdmin) {
       toast({
         title: "Error Occured!",
         description: "Unauthorized access...",

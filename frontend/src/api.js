@@ -97,3 +97,15 @@ export async function getUserOrdersfromApi(config) {
     throw err;
   }
 }
+
+export async function verifyIsAdmin(config) {
+  try {
+    const { data } = await axios.get(
+      `${API_URL}/api/user/verify-is-admin`,
+      config
+    );
+    return data;
+  } catch (err) {
+    throw err;
+  }
+}

@@ -23,7 +23,7 @@ import { CartState } from "../context/CartProvider";
 import { ProductState } from "../context/ProductProvider";
 const Navbar = () => {
   const { productDispatch, fetchMenus } = ProductState();
-  const { user, setUser } = UserState();
+  const { user, setUser, isAdmin, setIsAdmin } = UserState();
   const history = useNavigate();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,7 +41,7 @@ const Navbar = () => {
     history("/cart");
   };
   const handleAdminRoute = () => {
-    if (user?.isAdmin) {
+    if (isAdmin) {
       history("/admin");
     }
   };
@@ -67,6 +67,7 @@ const Navbar = () => {
       duration: 5000,
     });
     setTimeout(() => {
+      setIsAdmin(false);
       setUser({ name: "nouser" });
       history("/home");
     }, 1000);
@@ -140,7 +141,7 @@ const Navbar = () => {
           >
             Orders
           </Button>
-          {user?.isAdmin ? (
+          {isAdmin ? (
             <Button
               bg={"white"}
               color={"teal"}
@@ -228,7 +229,7 @@ const Navbar = () => {
               >
                 Orders
               </Button>
-              {user?.isAdmin ? (
+              {isAdmin ? (
                 <Button
                   padding={"30px"}
                   color={"teal.500"}
