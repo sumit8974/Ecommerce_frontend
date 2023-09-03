@@ -22,9 +22,8 @@ import { UserState } from "../context/UserProvider";
 import { CartState } from "../context/CartProvider";
 import { ProductState } from "../context/ProductProvider";
 const Navbar = () => {
-  const [itemName, setItemName] = useState("");
   const { productDispatch, fetchMenus } = ProductState();
-  const { user } = UserState();
+  const { user, setUser } = UserState();
   const history = useNavigate();
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -68,6 +67,7 @@ const Navbar = () => {
       duration: 5000,
     });
     setTimeout(() => {
+      setUser({ name: "nouser" });
       history("/home");
     }, 1000);
   };

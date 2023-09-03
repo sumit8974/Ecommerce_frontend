@@ -30,7 +30,7 @@ const AdminPage = () => {
       history("/");
       return;
     }
-  }, [user]);
+  }, []);
 
   return (
     <>
