@@ -81,7 +81,7 @@ const Navbar = () => {
         display={"flex"}
         alignItems="center"
         justifyContent={"space-between"}
-        boxShadow="xl"
+        boxShadow="lg"
         position={"fixed"}
         top="0"
         zIndex={"999"}

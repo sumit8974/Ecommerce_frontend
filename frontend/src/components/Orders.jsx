@@ -56,7 +56,7 @@ const Orders = () => {
       mb={"80px"}
       p={"20px"}
     >
-      <Heading color={"teal"} ml="100px">
+      <Heading color={"teal"} m="0px auto">
         Your Orders
       </Heading>
       {orders?.length > 0 ? (
@@ -67,7 +67,7 @@ const Orders = () => {
               overflow="hidden"
               variant="outline"
               maxW={"900px"}
-              boxShadow="2xl"
+              boxShadow="md"
               p={"0"}
               mr={"auto"}
               ml={"auto"}
@@ -86,8 +86,11 @@ const Orders = () => {
                 <CardBody>
                   <Heading size="md">{order.name}</Heading>
                   <Text py="2">{order.desc.slice(0)}</Text>
-                  <Text>{`Ouantity : ${order.qty}`}</Text>
-                  <Text>Date : {order.date.toString().slice(0, 10)}</Text>
+                  <Text as="b">{`Ouantity : ${order.qty}`}</Text>
+                  <br />
+                  <Text as="b">
+                    Order Date : {order.date.toString().slice(0, 10)}
+                  </Text>
                   <Text color="blue.600" fontSize="2xl">
                     {`Amount : ${order.price}`}
                   </Text>

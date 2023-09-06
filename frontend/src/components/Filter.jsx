@@ -9,7 +9,7 @@ const Filter = () => {
   } = ProductState();
   return (
     <>
-      <Flex mt={"100px"} pl="35px" alignItems={"center"}>
+      <Flex mt={"100px"} justifyContent="center" alignItems={"center"}>
         <Text fontWeight={"bold"} mr="10px">
           Filters:
         </Text>
@@ -57,7 +57,13 @@ const Filter = () => {
           </Stack>
         </RadioGroup>
         <Button
+          visibility={byProductType ? "visible" : "hidden"}
+          opacity={byProductType ? 1 : 0}
+          transition="opacity 0.7s ease-in-out"
           ml="5px"
+          bg="red.200"
+          h="35px"
+          _hover={{ bg: "red.100" }}
           onClick={() =>
             productDispatch({
               type: "CLEAR_FILTERS",

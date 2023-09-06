@@ -22,8 +22,10 @@ const AllOrders = () => {
   const toast = useToast();
   const { user } = UserState();
   const [Allorders, setOrders] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   const fetchAllOrders = async () => {
+    setLoading(true);
     try {
       const config = {
         headers: {
@@ -41,10 +43,10 @@ const AllOrders = () => {
         isClosable: true,
       });
     }
+    setLoading(false);
   };
   useEffect(() => {
     fetchAllOrders();
-    // console.log(orders.length > 0);
   }, []);
 
   return (
@@ -53,65 +55,69 @@ const AllOrders = () => {
         <Heading as="h5" size="md" mb={"10px"}>
           All Orders per user
         </Heading>
-        {Allorders?.map((o) => (
-          <Accordion allowMultiple key={o._id}>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign={"left"}>
-                    {o._id}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel>
-                <Flex
-                  w={"90%"}
-                  ml="auto"
-                  mr={"auto"}
-                  gap={"10"}
-                  flexWrap="wrap"
-                  alignItems={"center"}
-                  justifyContent="center"
-                  position="relative"
-                >
-                  {o.orders.map((ord, index) => (
-                    <Card
-                      minW={{ base: "sm", md: "300px" }}
-                      maxW={{ base: "sm", md: "300px" }}
-                      key={index}
-                    >
-                      <CardBody>
-                        <Image
-                          objectFit={{ base: "cover", mid: "fit" }}
-                          h="260px"
-                          ml={"auto"}
-                          mr="auto"
-                          transition={"transform .2s ease-in-out"}
-                          _hover={{
-                            cursor: "pointer",
-                          }}
-                          src={`${ord.src}`}
-                          loading="lazy"
-                        ></Image>
-                        <Stack mt="6" spacing="0">
-                          <Heading size="md">{ord.name}</Heading>
-                          <Text color="blue.600" fontSize="2xl">
-                            Rs {ord.price}
-                          </Text>
-                          <Text>Quantity : {ord.qty}</Text>
-                          <Text>
-                            Order Date : {ord.date.toString().slice(0, 10)}
-                          </Text>
-                        </Stack>
-                      </CardBody>
-                    </Card>
-                  ))}
-                </Flex>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        ))}
+        {isLoading ? (
+          <Heading textAlign="center">🌀 Loading...</Heading>
+        ) : (
+          Allorders?.map((o) => (
+            <Accordion allowMultiple key={o._id}>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box as="span" flex="1" textAlign={"left"}>
+                      {o._id}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel>
+                  <Flex
+                    w={"90%"}
+                    ml="auto"
+                    mr={"auto"}
+                    gap={"10"}
+                    flexWrap="wrap"
+                    alignItems={"center"}
+                    justifyContent="center"
+                    position="relative"
+                  >
+                    {o.orders.map((ord, index) => (
+                      <Card
+                        minW={{ base: "sm", md: "300px" }}
+                        maxW={{ base: "sm", md: "300px" }}
+                        key={index}
+                      >
+                        <CardBody>
+                          <Image
+                            objectFit={{ base: "cover", mid: "fit" }}
+                            h="260px"
+                            ml={"auto"}
+                            mr="auto"
+                            transition={"transform .2s ease-in-out"}
+                            _hover={{
+                              cursor: "pointer",
+                            }}
+                            src={`${ord.src}`}
+                            loading="lazy"
+                          ></Image>
+                          <Stack mt="6" spacing="0">
+                            <Heading size="md">{ord.name}</Heading>
+                            <Text color="blue.600" fontSize="2xl">
+                              Rs {ord.price}
+                            </Text>
+                            <Text>Quantity : {ord.qty}</Text>
+                            <Text>
+                              Order Date : {ord.date.toString().slice(0, 10)}
+                            </Text>
+                          </Stack>
+                        </CardBody>
+                      </Card>
+                    ))}
+                  </Flex>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          ))
+        )}
       </Box>
     </>
   );

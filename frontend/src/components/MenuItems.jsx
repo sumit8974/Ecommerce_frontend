@@ -129,7 +129,7 @@ const MenuItems = () => {
                         onClick={() => {
                           dispatch({
                             type: "ADD_TO_CART",
-                            payload: data,
+                            payload: { item: data, qty: 1 },
                           });
                         }}
                         variant="solid"

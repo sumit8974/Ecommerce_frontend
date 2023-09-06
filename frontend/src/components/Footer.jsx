@@ -9,9 +9,10 @@ const Footer = () => {
         w="100%"
         boxShadow="dark-lg"
         p={"5px"}
-        mt="5px"
-        position={"absolute"}
-        bottom="-136"
+        mt="1000px"
+        position="fixed"
+        bottom="0px"
+        left="0px"
       >
         <Text textAlign={"center"} fontWeight="bold">
           Made By Sumit Laishram

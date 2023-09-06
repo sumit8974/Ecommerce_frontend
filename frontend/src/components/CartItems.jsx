@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -19,6 +20,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Spinner,
   Stack,
   StackDivider,
   Text,
@@ -29,8 +31,7 @@ import {
 import { AiOutlineDelete } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
 import { CartState } from "../context/CartProvider";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { UserState } from "../context/UserProvider";
 import { buyProducts } from "../api";
 const cartItems = () => {
@@ -138,7 +139,7 @@ const cartItems = () => {
       <Flex
         minH={"72.7vh"}
         mt="120px"
-        ml="10px"
+        // ml="10px"
         flexDirection={{ base: "column", md: "column", lg: "row" }}
         alignItems={{ base: "left" }}
       >
@@ -151,82 +152,87 @@ const cartItems = () => {
           paddingLeft={"10px"}
           paddingRight={"10px"}
         >
-          <Heading color={"teal"} ml="100px">
+          <Heading color={"teal"} m="0px auto">
             Shopping Cart
           </Heading>
-          {cart.map((prod) => {
-            return (
-              <Card
-                direction={{ base: "column", sm: "row", md: "row" }}
-                overflow="hidden"
-                variant="outline"
-                maxW={"900px"}
-                ml={{ lg: "100px" }}
-                boxShadow="2xl"
-                p={"0"}
-                key={prod._id}
-              >
-                <Image
-                  objectFit="fit"
-                  maxW={{ base: "100%", sm: "200px" }}
-                  src={`${prod.src}`}
-                  alt="Caffe Latte"
-                  borderRight={"1px solid gray"}
-                  _hover={{ cursor: "pointer" }}
-                />
+          {cart.length > 0 ? (
+            cart.map((prod) => {
+              return (
+                <Card
+                  direction={{ base: "column", sm: "row", md: "row" }}
+                  overflow="hidden"
+                  variant="outline"
+                  maxW={"900px"}
+                  ml={{ lg: "100px" }}
+                  boxShadow="md"
+                  key={prod._id}
+                >
+                  <Image
+                    objectFit="fit"
+                    maxW={{ base: "100%", sm: "200px" }}
+                    src={`${prod.src}`}
+                    alt="Caffe Latte"
+                    borderRight={"1px solid gray"}
+                    _hover={{ cursor: "pointer" }}
+                  />
 
-                <Stack>
-                  <CardBody>
-                    <Heading size="md">{prod.name}</Heading>
-                    <Text py="2">{prod.desc}</Text>
-                  </CardBody>
-                  <CardFooter gap={{ base: "2", sm: "1", md: "2" }}>
-                    <Select
-                      w="60px"
-                      h="40px"
-                      value={prod.qty}
-                      onChange={(e) =>
-                        dispatch({
-                          type: "CHANGE_CART_QTY",
-                          payload: {
-                            _id: prod._id,
-                            qty: e.target.value,
-                          },
-                        })
-                      }
-                    >
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                    </Select>
-                    <Text
-                      color="blue.600"
-                      fontSize={{ base: "xl", sm: "md", md: "xl" }}
-                      display="flex"
-                      alignItems="center"
-                    >
-                      {`Rs : ${prod.price}`}
-                    </Text>
-                    <Button
-                      bg={"white"}
-                      _hover={{ bg: "red.100" }}
-                      color="red"
-                      onClick={() => {
-                        dispatch({
-                          type: "REMOVE_FROM_CART",
-                          payload: prod,
-                        });
-                      }}
-                    >
-                      <AiOutlineDelete fontSize={"15"} />
-                    </Button>
-                  </CardFooter>
-                </Stack>
-              </Card>
-            );
-          })}
+                  <Stack>
+                    <CardBody>
+                      <Heading size="md">{prod.name}</Heading>
+                      <Text py="2">{prod.desc}</Text>
+                    </CardBody>
+                    <CardFooter gap={{ base: "2", sm: "1", md: "2" }}>
+                      <Select
+                        w="60px"
+                        h="40px"
+                        value={prod.qty}
+                        onChange={(e) =>
+                          dispatch({
+                            type: "CHANGE_CART_QTY",
+                            payload: {
+                              _id: prod._id,
+                              qty: e.target.value,
+                            },
+                          })
+                        }
+                      >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                      </Select>
+                      <Text
+                        color="blue.600"
+                        fontSize={{ base: "xl", sm: "md", md: "xl" }}
+                        display="flex"
+                        alignItems="center"
+                      >
+                        {`Rs : ${prod.price}`}
+                      </Text>
+                      <Button
+                        bg={"white"}
+                        _hover={{ bg: "red.100" }}
+                        color="red"
+                        onClick={() => {
+                          dispatch({
+                            type: "REMOVE_FROM_CART",
+                            payload: prod,
+                          });
+                        }}
+                      >
+                        <AiOutlineDelete fontSize={"15"} />
+                      </Button>
+                    </CardFooter>
+                  </Stack>
+                </Card>
+              );
+            })
+          ) : (
+            <Text fontSize="20px" fontWeight="medium" textAlign="center">
+              Cart is Empty...
+            </Text>
+          )}
         </VStack>
 
         {/* Order Summary */}
@@ -238,7 +244,7 @@ const cartItems = () => {
           mb="10px"
           mr="10px"
         >
-          <Card h={"auto"} boxShadow="2xl">
+          <Card h={"auto"} boxShadow="md">
             <CardHeader>
               <Heading size="md">Order Summary</Heading>
             </CardHeader>
@@ -353,7 +359,7 @@ const cartItems = () => {
               colorScheme={"teal"}
               width={"100%"}
             >
-              Pay
+              {loading ? <Spinner /> : "Pay"}
             </Button>
           </ModalBody>
         </ModalContent>
