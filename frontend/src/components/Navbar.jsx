@@ -69,7 +69,7 @@ const Navbar = () => {
     setTimeout(() => {
       setIsAdmin(false);
       setUser({ name: "nouser" });
-      history("/home");
+      window.location.href = "/";
     }, 1000);
   };
   return (
