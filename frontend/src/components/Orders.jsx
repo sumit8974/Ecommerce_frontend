@@ -3,26 +3,24 @@ import {
   CardBody,
   Heading,
   Image,
+  Spinner,
   Stack,
   StackDivider,
   Text,
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import axios from "axios";
-
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { UserState } from "../context/UserProvider";
 import { getUserOrdersfromApi } from "../api";
 
 const Orders = () => {
   const toast = useToast();
   const { user } = UserState();
-  const [orders, setOrders] = useState([]);
-  const history = useNavigate();
-
+  const [orders, setOrders] = useState(null);
+  const [loading, setLoading] = useState(false);
   const fetchUsersOrders = async () => {
+    setLoading(true);
     try {
       const config = {
         headers: {
@@ -40,11 +38,26 @@ const Orders = () => {
         isClosable: true,
       });
     }
+    setLoading(false);
   };
+
   useEffect(() => {
     if (user.name !== "nouser") fetchUsersOrders();
-    // console.log(orders.length > 0);
   }, [user]);
+
+  if (loading) {
+    return (
+      <Heading textAlign="center" mt="150px">
+        <Spinner
+          thickness="4px"
+          speed="0.5s"
+          emptyColor="gray.200"
+          color="teal.500"
+          size="xl"
+        />
+      </Heading>
+    );
+  }
   return (
     <VStack
       divider={<StackDivider borderColor="gray.200" />}
@@ -91,8 +104,9 @@ const Orders = () => {
                   <Text as="b">
                     Order Date : {order.date.toString().slice(0, 10)}
                   </Text>
-                  <Text color="blue.600" fontSize="2xl">
-                    {`Amount : ${order.price}`}
+                  <br />
+                  <Text color="blue.600" fontSize="xl" fontWeight="medium">
+                    {`Total Amount : Rs ${order.price * order.qty}`}
                   </Text>
                 </CardBody>
               </Stack>

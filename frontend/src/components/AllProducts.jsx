@@ -7,6 +7,7 @@ import {
   Flex,
   Heading,
   Image,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -76,7 +77,15 @@ const AllProducts = () => {
       mt={"30px"}
     >
       {isLoading ? (
-        <Heading>🌀 Loading...</Heading>
+        <Heading>
+          <Spinner
+            thickness="4px"
+            speed="0.5s"
+            emptyColor="gray.200"
+            color="teal.500"
+            size="xl"
+          />
+        </Heading>
       ) : (
         menus.map((data, index) => {
           return (

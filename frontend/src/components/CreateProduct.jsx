@@ -88,12 +88,19 @@ const CreateProduct = () => {
   async function handleUpload() {
     // console.log(product);
     setUploading(true);
+    console.log(typeof product.price);
+    console.log(Number(product.price));
+    console.log(!(Number(product.price) <= 0));
+    if (!(Number(product.price) <= 0)) {
+      console.log("cool");
+    }
+    console.log(product.file);
     if (
       product.name === "" ||
-      product.price <= 0 ||
       product.category === "" ||
       product.desc === "" ||
-      product.file === ""
+      product.file === "" ||
+      Number(product.price) <= 0
     ) {
       toast({
         title: "Provide valid product detail...",

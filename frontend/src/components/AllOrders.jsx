@@ -10,6 +10,7 @@ import {
   Flex,
   Heading,
   Image,
+  Spinner,
   Stack,
   Text,
   useToast,
@@ -56,7 +57,15 @@ const AllOrders = () => {
           All Orders per user
         </Heading>
         {isLoading ? (
-          <Heading textAlign="center">🌀 Loading...</Heading>
+          <Heading textAlign="center" mt="30px">
+            <Spinner
+              thickness="4px"
+              speed="0.5s"
+              emptyColor="gray.200"
+              color="teal.500"
+              size="xl"
+            />
+          </Heading>
         ) : (
           Allorders?.map((o) => (
             <Accordion allowMultiple key={o._id}>
