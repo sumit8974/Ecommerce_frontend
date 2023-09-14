@@ -52,9 +52,10 @@ const MenuItems = () => {
     }
     return sortedProducts;
   };
+  const menuData = transformProducts();
   return (
     <>
-      <Filter />
+      {menuData?.length > 0 && !isLoading ? <Filter /> : null}
       <Flex
         w={"90%"}
         ml="auto"
@@ -73,9 +74,19 @@ const MenuItems = () => {
             w={"90vw"}
             isLoaded={!isLoading}
             fadeDuration={2}
+            mt="70px"
           ></Skeleton>
+        ) : menuData.length <= 0 ? (
+          <Text
+            fontSize="20px"
+            fontWeight="medium"
+            textAlign="center"
+            mt="70px"
+          >
+            No Products available...
+          </Text>
         ) : (
-          transformProducts()?.map((data, index) => {
+          menuData?.map((data, index) => {
             return (
               <Card
                 minW={{ base: "sm", md: "300px" }}

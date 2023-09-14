@@ -16,12 +16,15 @@ import {
 } from "@chakra-ui/react";
 import { FaShoppingCart } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserState } from "../context/UserProvider";
 import { CartState } from "../context/CartProvider";
 import { ProductState } from "../context/ProductProvider";
+import useDebounce from "../../hooks/useDebounce";
 const Navbar = () => {
+  const [searchInputData, setSearchInputData] = useState(null);
+  const searchFilter = useDebounce(searchInputData, 500);
   const { productDispatch, fetchMenus } = ProductState();
   const { user, setUser, isAdmin, setIsAdmin } = UserState();
   const history = useNavigate();
@@ -32,11 +35,9 @@ const Navbar = () => {
     state: { cart },
   } = CartState();
   const handleItemName = (e) => {
-    productDispatch({
-      type: "SEARCH_FILTER",
-      payload: e.target.value,
-    });
+    setSearchInputData(e.target.value);
   };
+
   const handleCartClick = () => {
     history("/cart");
   };
@@ -72,6 +73,14 @@ const Navbar = () => {
       window.location.href = "/";
     }, 1000);
   };
+  useEffect(() => {
+    if (searchFilter === "" || searchFilter) {
+      productDispatch({
+        type: "SEARCH_FILTER",
+        payload: searchFilter,
+      });
+    }
+  }, [searchFilter]);
   return (
     <>
       <Box
